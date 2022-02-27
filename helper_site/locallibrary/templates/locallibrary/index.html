@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+{% load mptt_tags %}
+
+
+{% block content %}
+<h1>Личная библиотека</h1>
+
+  <p>Добро пожаловать в <em>Личную библиотеку</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
+
+<h2>Dynamic content</h2>
+
+  <p>Мои книги:</p>
+  <ul>
+    {% for num_book in num_books %}
+        <li> {{ num_book.title }}</li>
+    {% endfor %}
+  </ul>
+<h2>Категории</h2>
+
+<ul>
+    {% recursetree category_names %}
+        <li>
+            {{ node.name }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+{% endblock %}
+
