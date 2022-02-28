@@ -16,5 +16,5 @@ class WantedInline(admin.TabularInline):
 
 @admin.register(Book)
 class BooksAdmin(admin.ModelAdmin):
-    list_filter = ['title', 'description', "autor", 'genre', 'url', "country"]
+    list_filter = ['title', 'description', 'autor', 'genre', 'url', "country"]
     inlines = [WantedInline]

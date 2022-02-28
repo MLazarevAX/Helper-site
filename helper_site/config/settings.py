@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'locallibrary',
 
     'mptt',
+    'django_extensions'
     # 'allauth', для авторизации в будущем
     # 'allauth.account',
 ]

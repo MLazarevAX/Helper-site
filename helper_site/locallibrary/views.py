@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import *
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 
 # Create your views here.
@@ -28,10 +28,13 @@ class WantedBook(ListView):
     model = Wanted
 
 
-
 class ReadnowBook:
     pass
 
 
-class BooksDetail:
-    pass
+class BooksDetail(ListView):
+    model = Book
+
+    def get_queryset(self):
+        return Book.objects.filter(slug=self.kwargs.get('slug'))
+

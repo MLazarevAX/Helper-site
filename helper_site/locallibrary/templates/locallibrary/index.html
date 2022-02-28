@@ -1,6 +1,6 @@
 {% extends 'base.html'%}
 {% load mptt_tags %}
-
+{% load static %}
 
 {% block content %}
 <h1>Личная библиотека</h1>
@@ -12,6 +12,7 @@
   <p>Мои книги:</p>
   <ul>
     {% for num_book in num_books %}
+        <img src="{{ num_book.image }}" alt="{{ num_book.autor }}" style="width:555px;height:540px;"/>
         <li> {{ num_book.title }}</li>
     {% endfor %}
   </ul>

@@ -4,8 +4,8 @@
 <h1>Личная библиотека</h1>
   <p>Хочу прочесть:</p>
   <ul>
-    {% for wanted_book in wanted_list %}
-        <li> {{ wanted_book.name }}</li>
+    {% for wanted_book in wanted_list  %}
+        <li><a href="{% url 'book-detail' slug=wanted_book.name.slug %}">{{ wanted_book.name.title }}</a> </li>
     {% endfor %}
   </ul>
 {% endblock %}
