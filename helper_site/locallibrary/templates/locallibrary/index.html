@@ -11,9 +11,17 @@
 
   <p>Мои книги:</p>
   <ul>
-    {% for num_book in num_books %}
-        <img src="{{ num_book.image }}" alt="{{ num_book.autor }}" style="width:555px;height:540px;"/>
-        <li> {{ num_book.title }}</li>
+      {% for num_book in num_books %}
+        <img src="{{ num_book.image }}" alt="num_book.title" style="width:555px;height:540px;"/>
+
+      {% if num_book.autor.all|length > 1 %}
+        <li> Авторы</li>
+      {% else  %}
+        <li> Автор</li>
+      {% endif %}
+        {% for autor_book in num_book.autor.all %}
+            <li> {{ autor_book }}</li>
+        {% endfor %}
     {% endfor %}
   </ul>
 <h2>Категории</h2>

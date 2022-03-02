@@ -9,10 +9,12 @@ def index(requests):
     '''
     функция отображения для домашней страницы сайта
     '''
-    num_books = Book.objects.all()
+
+    num_books = list(Book.objects.all())
     category_name = Genre.objects.all()
     num_wanted = Wanted.objects.all()
     num_readnow = Readnow.objects.all()
+
 
     return render(requests,
                   'locallibrary/index.html',
@@ -27,9 +29,8 @@ def index(requests):
 class WantedBook(ListView):
     model = Wanted
 
-
-class ReadnowBook:
-    pass
+class ReadnowBook(ListView):
+    model = Readnow
 
 
 class BooksDetail(ListView):

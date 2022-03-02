@@ -18,3 +18,5 @@ class WantedInline(admin.TabularInline):
 class BooksAdmin(admin.ModelAdmin):
     list_filter = ['title', 'description', 'autor', 'genre', 'url', "country"]
     inlines = [WantedInline]
+
+    list_display = ['title', 'description', 'genre', 'slug']

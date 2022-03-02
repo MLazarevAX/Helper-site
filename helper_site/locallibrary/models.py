@@ -3,9 +3,16 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.text import slugify
-
+from autoslug import AutoSlugField
+from uuslug import uuslug
 
 # Create your models here.
+def instance_slug(instance):
+    return instance.title
+
+def slugify_value(value):
+    return value.replace(' ', '-')
+
 class Autor(models.Model):
     first_name = models.CharField(max_length=40, verbose_name='Имя')
     last_name = models.CharField(max_length=40, verbose_name='Фамилия')
@@ -48,11 +55,19 @@ class Book(models.Model):
     year = models.IntegerField(verbose_name="year of publishing", blank=True, null=True)
     image = models.ImageField(upload_to='articles/', blank=True, null=True)
 
-    slug = models.SlugField(max_length=100, null=False, blank=True, default="")
+    slug = AutoSlugField(max_length=70,
+                        db_index=True,
+                        unique=True,
+                        populate_from=instance_slug,
+                        slugify=slugify_value)
+
     reader = models.ManyToManyField(User, blank=True,)
 
+    def __unicode__(self):
+        return self.title
+
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, allow_unicode=True)
+        self.slug = uuslug(self.slug, instance=self)
         super(Book, self).save(*args, **kwargs)
 
     def __str__(self):
