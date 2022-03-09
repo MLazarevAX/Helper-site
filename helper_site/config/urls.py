@@ -21,7 +21,8 @@ from django.urls import path, include
 urlpatterns = [
     # path('accounts/', include('allauth.url')),
     path('admin/', admin.site.urls),
-    path('library/', include('locallibrary.urls')),
+    path('locallibrary/', include('locallibrary.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,28 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+  <h1>Title: {{ book.title }}</h1>
+  {% for autor in book.author.all %}
+  {% if book.autor.all|length > 1 %}
+  <p><strong>Authors:</strong> {{ autor }}</p> <!-- author detail link not yet defined -->
+  {% else %}
+  <p><strong>Author:</strong> {{ autor }}</p>
+  {% endif %}
+  {% endfor %}
+  <p><strong>Genre:</strong> {{ book.genre }}</p>
+  <p><strong>year:</strong> {{ book.year }}</p>
+  <p><strong>Language:</strong> {{ book.country }}</p>
+
+
+  <div style="margin-left:20px;margin-top:20px">
+      <div id="image">
+        <hr>
+            {% if book.image %}
+                <img src="{{ book.image.url}}" alt="book.title" style="width:255px;height:240px;"/>
+            {% endif  %}
+        <p><strong>Discription:</strong> {{ book.description }}</p>
+      </div>
+  </div>
+{% endblock %}

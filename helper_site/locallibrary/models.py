@@ -5,15 +5,11 @@ from mptt.models import MPTTModel, TreeForeignKey
 from django.utils.text import slugify
 from autoslug import AutoSlugField
 from uuslug import uuslug
-
+from services.additional import instance_slug, replace_space_with_character
 # Create your models here.
-def instance_slug(instance):
-    return instance.title
 
-def slugify_value(value):
-    return value.replace(' ', '-')
 
-class Autor(models.Model):
+class Author(models.Model):
     first_name = models.CharField(max_length=40, verbose_name='Имя')
     last_name = models.CharField(max_length=40, verbose_name='Фамилия')
     middle_name = models.CharField(max_length=40, verbose_name='Отчество', blank=True)
@@ -48,18 +44,20 @@ class Book(models.Model):
                              null=False,
                              blank=False)
     description = models.TextField()
-    autor = models.ManyToManyField(Autor, blank=True, default="Неизвестный")
-    genre = models.ForeignKey("Genre", on_delete=models.CASCADE, blank=True)
+    author = models.ManyToManyField(Author, default="Неизвестный")
+    genre = models.ForeignKey(Genre, on_delete=models.CASCADE, blank=True)
     url = models.CharField(max_length=150, blank=True, null=True)
     country = models.CharField(max_length=150, blank=True, null=True)
     year = models.IntegerField(verbose_name="year of publishing", blank=True, null=True)
-    image = models.ImageField(upload_to='articles/', blank=True, null=True)
+    image = models.ImageField(upload_to='articles/',
+                              blank=True,
+                              null=True,)
 
     slug = AutoSlugField(max_length=70,
-                        db_index=True,
-                        unique=True,
-                        populate_from=instance_slug,
-                        slugify=slugify_value)
+                         db_index=True,
+                         unique=True,
+                         populate_from=instance_slug,
+                         slugify=replace_space_with_character)
 
     reader = models.ManyToManyField(User, blank=True,)
 
@@ -71,7 +69,7 @@ class Book(models.Model):
         super(Book, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Название {self.title}, Автор: {self.autor}"
+        return f"Название {self.title}"
 
     def get_absolute_url(self):
         return reverse('book-detail', args=[self.slug])

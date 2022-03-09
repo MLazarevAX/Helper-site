@@ -1,11 +1,10 @@
-{% extends 'base.html'%}
-{% load static %}
-
+{% extends "base.html" %}
 
 {% block content %}
-<h1>Личная библиотека</h1>
-<h2>Все книги</h2>
-{% for num_book in book_list %}
+    <h1>Мои книги</h1>
+
+    {% if book_list %}
+    {% for num_book in book_list %}
       <div id="image">
             {% if num_book.image %}
                 <img src="{{ num_book.image.url}}" alt="num_book.title" style="width:155px;height:140px;"/>
@@ -28,4 +27,8 @@
             {% endif  %}
       </div>
       {% endfor %}
+
+    {% else %}
+      <p>Нет добавленных книг.</p>
+    {% endif %}
 {% endblock %}
