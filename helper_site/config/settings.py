@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'django.contrib.sites',
 
+
     'locallibrary',
 
     'mptt',
@@ -138,7 +139,7 @@ STATIC_URL = 'static/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [STATIC_DIR]
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -150,3 +151,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # SITE_ID = 1
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block category %}
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{bookinst.title}}</h1>
+    <ul>
+        <li>
+        <a href="{% url 'author-create'  %}">Добавить автора</a>
+        </li>
+        </ul>
+    <form action="" method="post">
+        {% csrf_token %}
+        <table>
+        {{ form }}
+        </table>
+        <input type="submit" value="Submit" />
+    </form>
+
+{% endblock %}

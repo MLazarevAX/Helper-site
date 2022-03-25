@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Book, Genre, Author, Wanted, Readnow
+from .models import Book, Genre, Author, BookWanted, BookReadnow
 # Register your models here.
 from mptt.admin import MPTTModelAdmin
 # from myproject.myapp.models import Node
@@ -7,17 +7,14 @@ from mptt.admin import MPTTModelAdmin
 
 admin.site.register(Genre, MPTTModelAdmin)
 admin.site.register(Author)
-admin.site.register(Wanted)
-admin.site.register(Readnow)
+admin.site.register(BookWanted)
+admin.site.register(BookReadnow)
 
 class WantedInline(admin.TabularInline):
-    model = Wanted
+    model = BookWanted
     extra = 0
 
 @admin.register(Book)
 class BooksAdmin(admin.ModelAdmin):
-    list_filter = ['title', 'description', 'author', 'genre', 'url', "country", ]
+    list_display = ['title', 'description', 'slug']
     inlines = [WantedInline]
-
-    list_display = ['title', 'description', 'genre', 'slug']
-
