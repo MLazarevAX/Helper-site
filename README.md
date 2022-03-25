@@ -1,1 +1,1 @@
-# Helper-site
+# Этот проект разрабатывается, с целью изучения Django Framework
