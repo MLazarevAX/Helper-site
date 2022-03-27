@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from .models import *
@@ -6,22 +6,17 @@ from django.views.generic import ListView, DetailView, View
 from services.additional import get_context
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms.forms import NewBookForm
+from .forms.forms import NewBookForm, ReviewForm
 
 # Create your views here.
-
-
-
 
 class WantedBook(ListView):
     model = BookWanted
 
-
 class ReadnowBook(ListView):
     model = BookReadnow
 
-
-class BooksDetail(LoginRequiredMixin, DetailView):
+class BooksDetail(DetailView):
     model = Book
     template_name = 'locallibrary/books/book_detail.html'
 
@@ -33,8 +28,6 @@ class BooksDetail(LoginRequiredMixin, DetailView):
 class Books(ListView):
     model = Book
     template_name = 'locallibrary/books/book_list.html'
-
-
 
 class BooksByReadersListView(LoginRequiredMixin, ListView):
     """
@@ -53,6 +46,18 @@ class BooksByReadersListView(LoginRequiredMixin, ListView):
         read = Book.objects.filter(reader=self.request.user)
         return read
 
+class AddReview(View):
+    ''' Отзывы пользователей '''
+    def post(self, request, pk):
+        form = ReviewForm(request.POST)
+        book = Book.objects.get(id=pk)
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.book_id = pk
+            form.save()
+
+        print(request.POST)
+        return redirect(book.get_absolute_url())
 
 @login_required
 def new_book(request, slug):
