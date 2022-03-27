@@ -6,11 +6,9 @@ from django.views.generic import ListView, DetailView, View
 from services.additional import get_context
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms.forms import NewBookForm, NewAuthorForm
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from .forms.forms import NewBookForm
 
 # Create your views here.
-from django.contrib.auth.mixins import PermissionRequiredMixin
 
 
 
