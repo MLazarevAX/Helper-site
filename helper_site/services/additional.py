@@ -1,10 +1,13 @@
+import re
+
 def instance_slug(instance):
     return instance.title
 
 
 def replace_space_with_character(value, character: str = "-"):
     if isinstance(character, str):
-        return value.replace(' ', character)
+        res = re.sub(r'[^-a-zA-Zа-яёА-ЯЁ0-9_]', character, value)
+        return re.sub(r'-{2,10}', character, res)
     else:
         raise TypeError(f"{character} must be str")
 

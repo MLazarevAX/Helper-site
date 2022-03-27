@@ -72,10 +72,12 @@ class Book(models.Model):
                                max_length=150,
                                blank=True,
                                null=True)
+
     poster = models.ImageField("Постер",
                                upload_to='articles/',
                                blank=True,
                                null=True)
+
     year = models.PositiveSmallIntegerField("Дата публикации",
                                             default=2000,
                                             blank=True,
@@ -91,6 +93,7 @@ class Book(models.Model):
                            max_length=150,
                            blank=True,
                            null=True)
+
     reader = models.ManyToManyField(User, blank=True)
     draft = models.BooleanField("Черновик", default=False)
 
