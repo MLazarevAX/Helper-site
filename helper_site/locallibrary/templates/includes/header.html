@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load book_tag %}
             <!-- header -->
             <header class="header">
                 <div class="container-fluid px-lg-5">
@@ -19,9 +19,10 @@
                                 <a href="#">Категории <span class="fa fa-angle-down" aria-hidden="true"></span></a>
                                 <input type="checkbox" id="drop-2">
                                 <ul>
-                                    <li><a href="moviesingle.html">Жанры</a></li>
-                                    <li><a href="moviesingle.html">Хочу прочесть</a></li>
-                                    <li><a href="moviesingle.html">Читаю сейчас</a></li>
+                                    {% get_genre as genres %}
+                                    {% for genre in genres %}
+                                    <li><a href="/">{{ genre.name }}</a></li>
+                                    {% endfor %}
                                 </ul>
                             </li>
                             <li><a href="contact.html" style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход</a></li>

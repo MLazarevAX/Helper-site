@@ -124,6 +124,24 @@ class Book(models.Model):
         verbose_name = "Книга"
         verbose_name_plural = "Книги"
 
+class Reviews(models.Model):
+    """Отзывы"""
+    email = models.EmailField()
+    name = models.CharField("Имя", max_length=100)
+    text = models.TextField("Сообщение", max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Родитель", on_delete=models.CASCADE, blank=True, null=True
+    )
+    book = models.ForeignKey(Book, verbose_name="Книга", on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"{self.name} - {self.book}"
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
+
 
 class BookWanted(models.Model):
     """Хочу прочесть"""
@@ -175,20 +193,4 @@ class Rating(models.Model):
         verbose_name_plural = "Рейтинги"
 
 
-class Reviews(models.Model):
-    """Отзывы"""
-    email = models.EmailField()
-    name = models.CharField("Имя", max_length=100)
-    text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey(
-        'self', verbose_name="Родитель", on_delete=models.CASCADE, blank=True, null=True
-    )
-    book = models.ForeignKey(Book, verbose_name="Книга", on_delete=models.CASCADE)
 
-
-    def __str__(self):
-        return f"{self.name} - {self.book}"
-
-    class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
