@@ -14,6 +14,7 @@
 [css]: https://ru.wikipedia.org/wiki/HTML5
 [sql]: https://github.com/sqlite/sqlite
 
+<br />
 ### На данном этапе:
 - Спроектирована архитектура БД
 - Настроены роуты
