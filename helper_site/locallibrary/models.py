@@ -6,7 +6,7 @@ from autoslug import AutoSlugField
 from uuslug import uuslug
 from services.additional import instance_slug, replace_space_with_character
 from django.urls import reverse
-
+from django.utils.safestring import mark_safe
 # Create your models here.
 
 class Category(models.Model):
@@ -31,7 +31,9 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
 
 class Genre(MPTTModel):
     """ Жанр """
@@ -93,13 +95,8 @@ class Book(models.Model):
                            max_length=150,
                            blank=True,
                            null=True)
-
     reader = models.ManyToManyField(User, blank=True)
     draft = models.BooleanField("Черновик", default=False)
-
-    class Meta:
-        verbose_name = "Книга"
-        verbose_name_plural = "Книги"
 
     def __unicode__(self):
         return self.title
@@ -109,10 +106,43 @@ class Book(models.Model):
         super(Book, self).save(*args, **kwargs)
 
     def __str__(self):
-        return f"Название {self.title}"
+        return self.title
 
     def get_absolute_url(self):
         return reverse('book-detail', args=[self.slug])
+
+    def get_review(self):
+        return self.reviews_set.filter(parent__isnull=True)
+
+    def get_image(self):
+        if self.poster:
+            return mark_safe(f'<img src={self.poster.url} width="100" height="110"')
+        else:
+            return '(Нет изображения)'
+
+    get_image.short_description = "Постер"
+    get_image.allow_tags = True
+    class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"
+
+class Reviews(models.Model):
+    """Отзывы"""
+    email = models.EmailField()
+    name = models.CharField("Имя", max_length=100)
+    text = models.TextField("Сообщение", max_length=5000)
+    parent = models.ForeignKey(
+        'self', verbose_name="Родитель", on_delete=models.CASCADE, blank=True, null=True
+    )
+    book = models.ForeignKey(Book, verbose_name="Книга", on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"{self.name} - {self.book}"
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"
 
 
 class BookWanted(models.Model):
@@ -124,7 +154,12 @@ class BookWanted(models.Model):
                              )
 
     def __str__(self):
-        return self.name.title
+        return self.title
+
+    class Meta:
+        verbose_name = "Хочу прочитать"
+        verbose_name_plural = "Хочу прочитать"
+
 
 
 class BookReadnow(models.Model):
@@ -136,6 +171,9 @@ class BookReadnow(models.Model):
 
     def __str__(self):
         return self.name.title
+    class Meta:
+        verbose_name = "Читаю сейчас"
+        verbose_name_plural = "Читаю сейчас"
 
 
 class RatingStar(models.Model):
@@ -165,19 +203,4 @@ class Rating(models.Model):
         verbose_name_plural = "Рейтинги"
 
 
-class Reviews(models.Model):
-    """Отзывы"""
-    email = models.EmailField()
-    name = models.CharField("Имя", max_length=100)
-    text = models.TextField("Сообщение", max_length=5000)
-    parent = models.ForeignKey(
-        'self', verbose_name="Родитель", on_delete=models.SET_NULL, blank=True, null=True
-    )
-    book = models.ForeignKey(Book, verbose_name="Книга", on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.name} - {self.book}"
-
-    class Meta:
-        verbose_name = "Отзыв"
-        verbose_name_plural = "Отзывы"
