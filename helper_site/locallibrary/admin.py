@@ -56,7 +56,8 @@ class BooksAdmin(admin.ModelAdmin):
         (None, {
             'fields': (('title', 'tagline'),)
         }),
-        (None, {
+        ("description", {
+            'classes': ("collapse",),
             'fields': (('description', 'country'),)
         }),
         (None, {
@@ -78,3 +79,6 @@ class ReviewAdmin(admin.ModelAdmin):
     """Отзывы к книге"""
     list_display = ("name", "email", "parent", "book", "id")
     readonly_fields = ("name", "email")
+
+admin.site.site_title = "Django Library"
+admin.site.site_header = "Django Library"

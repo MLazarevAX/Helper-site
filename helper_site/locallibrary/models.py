@@ -31,7 +31,9 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
-
+    class Meta:
+        verbose_name = "Автор"
+        verbose_name_plural = "Авторы"
 
 class Genre(MPTTModel):
     """ Жанр """
@@ -154,6 +156,11 @@ class BookWanted(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = "Хочу прочитать"
+        verbose_name_plural = "Хочу прочитать"
+
+
 
 class BookReadnow(models.Model):
     """Читаю сейчас"""
@@ -164,6 +171,9 @@ class BookReadnow(models.Model):
 
     def __str__(self):
         return self.name.title
+    class Meta:
+        verbose_name = "Читаю сейчас"
+        verbose_name_plural = "Читаю сейчас"
 
 
 class RatingStar(models.Model):

@@ -30,10 +30,10 @@
                                {{book.title}}</h3>
                             <h5 class="editContent"></h5>
                             <ul>
-                                <li style="list-style: none"><span><b>Год:</b> {{book.year}}</span></li>
-                                <li style="list-style: none"><span><b>Страна:</b>{{book.country}}</span>
+                                <li style="list-style: none"><span><b>Год:</b> {{book.year|safe}</span></li>
+                                <li style="list-style: none"><span><b>Страна:</b>{{book.country|safe}}</span>
                                 </li>
-                                <li style="list-style: none"><span><b>Слоган:</b> {{book.tagline}}</span>
+                                <li style="list-style: none"><span><b>Слоган:</b> {{book.tagline|safe}}</span>
                                 </li>
                                 <li style="list-style: none">
 
@@ -90,7 +90,7 @@
                     <div class="row sub-para-w3layouts mt-5">
 
                         <h3 class="shop-sing editContent" >
-                            О книге : {{ book.title }}
+                            О книге : {{ book.title|safe }}
                         </h3>
 
                         <p class="editContent" >

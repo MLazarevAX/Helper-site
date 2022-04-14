@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'mptt',
     'django_extensions',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
