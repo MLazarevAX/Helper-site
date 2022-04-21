@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
-from .models import Book, Genre, Author, BookWanted, BookReadnow, Reviews
+from .models import Book, Genre, Author, BookWanted, BookReadnow, Reviews, RatingStar, Rating
 # Register your models here.
 from mptt.admin import DraggableMPTTAdmin
 
@@ -25,7 +25,12 @@ admin.site.register(
 admin.site.register(Author)
 admin.site.register(BookWanted)
 admin.site.register(BookReadnow)
+admin.site.register(RatingStar)
 
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    """Рейтинг"""
+    list_display = ('star', 'book', "ip")
 
 class WantedInline(admin.TabularInline):
     model = BookWanted

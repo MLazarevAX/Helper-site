@@ -13,5 +13,6 @@ def get_genre():
 
 @register.inclusion_tag('locallibrary/tags/last_book.html')
 def get_last_books(count=5):
+    """Вывод последних книг"""
     books = Book.objects.order_by("id")[:count]
     return {"last_book": books}
