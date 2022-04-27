@@ -7,6 +7,8 @@ from uuslug import uuslug
 from services.additional import instance_slug, replace_space_with_character
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+
+
 # Create your models here.
 
 class Category(models.Model):
@@ -31,9 +33,11 @@ class Author(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
     class Meta:
         verbose_name = "Автор"
         verbose_name_plural = "Авторы"
+
 
 class Genre(MPTTModel):
     """ Жанр """
@@ -122,9 +126,11 @@ class Book(models.Model):
 
     get_image.short_description = "Постер"
     get_image.allow_tags = True
+
     class Meta:
         verbose_name = "Книга"
         verbose_name_plural = "Книги"
+
 
 class Reviews(models.Model):
     """Отзывы"""
@@ -135,7 +141,6 @@ class Reviews(models.Model):
         'self', verbose_name="Родитель", on_delete=models.CASCADE, blank=True, null=True
     )
     book = models.ForeignKey(Book, verbose_name="Книга", on_delete=models.CASCADE)
-
 
     def __str__(self):
         return f"{self.name} - {self.book}"
@@ -154,12 +159,11 @@ class BookWanted(models.Model):
                              )
 
     def __str__(self):
-        return self.title
+        return self.name
 
     class Meta:
         verbose_name = "Хочу прочитать"
         verbose_name_plural = "Хочу прочитать"
-
 
 
 class BookReadnow(models.Model):
@@ -171,6 +175,7 @@ class BookReadnow(models.Model):
 
     def __str__(self):
         return self.name.title
+
     class Meta:
         verbose_name = "Читаю сейчас"
         verbose_name_plural = "Читаю сейчас"
@@ -201,6 +206,3 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Рейтинг"
         verbose_name_plural = "Рейтинги"
-
-
-

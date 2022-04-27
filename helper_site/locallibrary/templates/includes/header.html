@@ -1,43 +1,69 @@
-{% load static %}
-{% load book_tag %}
-            <!-- header -->
-            <header class="header">
-                <div class="container-fluid px-lg-5">
-                    <!-- nav -->
-                    <nav class="py-4">
-                        <div id="logo">
-                            <h1> <a href="{% url 'books-list'%}" class="editContent" style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Source Sans Pro&quot;, sans-serif;">DjangoLibrary</a></h1>
-                        </div>
+{% load i18n book_tag %}
+    <!-- header -->
+    <header class="header">
+        <div class="container-fluid px-lg-5">
+            <!-- nav -->
+            <nav class="py-4">
+                <div id="logo">
+                    <h1> <a href="{% url 'books-list' %}" class="editContent" style="outline: none; outline-offset: -2px; cursor: inherit; color: rgb(255, 255, 255); font-size: 40px; background-color: rgba(0, 0, 0, 0); font-family: &quot;Source Sans Pro&quot;, sans-serif;">DjangoLibrary</a></h1>
+                </div>
 
-                        <label for="drop" class="toggle">Menu</label>
-                        <input type="checkbox" id="drop">
-                        <ul class="menu mt-2">
-                            <li class="active"><a href="{% url 'books-list'%}">Главная</a></li>
-                            <li>
-                                <!-- First Tier Drop Down -->
-                                <label for="drop-2" class="toggle">Категории <span class="fa fa-angle-down" aria-hidden="true" ></span> </label>
-                                <a href="#">Категории <span class="fa fa-angle-down" aria-hidden="true"></span></a>
-                                <input type="checkbox" id="drop-2">
-                                <ul>
-                                    {% get_genre as genres %}
-                                    {% for genre in genres %}
-                                    <li><a href="/">{{ genre.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </li>
-                            <li><a href="contact.html" style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход</a></li>
+                <label for="drop" class="toggle">Menu</label>
+                <input type="checkbox" id="drop">
+                <ul class="menu mt-2">
+                    <li class="active"><a href="{% url 'books-list' %}">Главная</a></li>
+                    <li>
+                        <!-- First Tier Drop Down -->
+                        <label for="drop-2" class="toggle">Категории <span class="fa fa-angle-down" aria-hidden="true" ></span> </label>
+                        <a href="#">Категории <span class="fa fa-angle-down" aria-hidden="true"></span></a>
+                        <input type="checkbox" id="drop-2">
+                        <ul>
+                            {% get_genre as genres %}
+                            {% for genre in genres %}
+                            <li><a href="/">{{ genre.name }}</a></li>
+                            {% endfor %}
                         </ul>
-                    </nav>
-                    <!-- //nav -->
-                </div>
-            </header>
-            <!-- //header -->
-            <!--/banner-->
-            <div class="banner-info">
-                <p class="editContent" >сайт на django 3 личной библиотеки</p>
-                <h3 class="mb-4 editContent">Твои книги </h3>
-                <div class="ban-buttons">
+                    </li>
+                    <li>
+                        {% if user.is_authenticated %}
+                            <span id="username-hidder">{{ user.username }}</span>
+                            <a href="{% url 'account_logout' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Выход</a></li>
+                        {% else %}
+                            <a href="{% url 'account_login' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Вход</a></li>
+                            <a href="{% url 'account_signup' %}"
+                            style="color: rgb(255, 255, 255); font-weight: 700; text-transform: uppercase;">Регистрация</a></li>
+                        {% endif %}
+                    <li>
+                        <form action="{% url 'set_language' %}" method="post"> {% csrf_token %}
+                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                            <select name="language">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}"
+                                            {% if language.code == LANGUAGES_CODE %}selected{% endif %}>
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Go">
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+            <!-- //nav -->
+        </div>
+    </header>
+    <!-- //header -->
+    <!--/banner-->
+    <div class="banner-info">
+        <p class="editContent" >сайт на django 3 личной библиотеки</p>
+        <h3 class="mb-4 editContent">Твои книги </h3>
+        <div class="ban-buttons">
 
-                </div>
-            </div>
-            <!--// banner-inner -->
+        </div>
+    </div>
+    <!--// banner-inner -->
