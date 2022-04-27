@@ -7,6 +7,7 @@ register_converter(converters.SlugRus, 'ruslug')
 urlpatterns = [
     path('', views.Books.as_view(), name='books-list'),
     path(r'mybooks/', views.BooksByReadersListView.as_view(), name='my-books'),
+    path("search/", views.FindBook.as_view(), name='search'),
     path("filter/", views.FilterBooksView.as_view(), name='filter'),
     path("add-rating/", views.AddStarRating.as_view(), name='add_rating'),
     path("json-filter/", views.JsonFilterMoviesView.as_view(), name='json_filter'),

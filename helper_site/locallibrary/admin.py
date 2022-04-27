@@ -2,6 +2,7 @@ from django.contrib import admin
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import Book, Genre, Author, BookWanted, BookReadnow, Reviews, RatingStar, Rating
+from modeltranslation.admin import TranslationAdmin
 # Register your models here.
 from mptt.admin import DraggableMPTTAdmin
 
@@ -9,20 +10,25 @@ from mptt.admin import DraggableMPTTAdmin
 
 class BookAdminForm(forms.ModelForm):
     """Форма с виджетом ckeditor"""
-    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_ru = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+    description_en = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
     class Meta:
         model = Book
         fields = '__all__'
 
+@admin.register(Genre)
+class GenreAdmin(TranslationAdmin):
+    """Рейтинг"""
+    list_display = ['id', 'name', 'slug', 'parent']
+    list_display_links = ['name']
 
-admin.site.register(
-    Genre,
-    DraggableMPTTAdmin,
-    list_display=['id', 'name', 'slug', 'parent'],
-    list_display_links=['name'],
-)
 
-admin.site.register(Author)
+@admin.register(Author)
+class AuthorAdmin(TranslationAdmin):
+    """Рейтинг"""
+    list_display = ['first_name', 'last_name', 'middle_name']
+    list_display_links = ['first_name']
+
 admin.site.register(BookWanted)
 admin.site.register(BookReadnow)
 admin.site.register(RatingStar)
@@ -43,7 +49,7 @@ class ReviewsInline(admin.StackedInline):
 
 
 @admin.register(Book)
-class BooksAdmin(admin.ModelAdmin):
+class BooksAdmin(TranslationAdmin):
     list_display = ['title', 'get_image', 'slug', 'draft']
     list_display_links = ('title', "slug")
     inlines = [WantedInline, ReviewsInline]

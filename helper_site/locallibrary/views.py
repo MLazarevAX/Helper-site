@@ -44,10 +44,10 @@ class BooksDetail(GenreYear, DetailView):
         a = Book.objects.filter(draft=False)
         return Book.objects.filter(draft=False)
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['star_form'] = RatingForm()
+        context['form'] = ReviewForm()
         ip = self.get_client_ip(self.request)
         rating = Book.objects.filter(ratings__ip=ip, id=self.object.pk).values('ratings__star')
         if rating:
@@ -172,3 +172,17 @@ class AddStarRating(View):
             return HttpResponse(status=201)
         else:
             return HttpResponse(status=400)
+
+
+class FindBook(ListView):
+    '''Поиск книги'''
+    paginate_by = 3
+    template_name = 'locallibrary/books/book_list.html'
+    def get_queryset(self):
+        query = Book.objects.filter(title__icontains=self.request.GET.get('q'))
+        return query
+
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context["q"] = f'q={self.request.GET.get("q")}&'
+        return context
