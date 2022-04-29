@@ -19,15 +19,6 @@ class GenreYear:
         return Book.objects.filter(draft=False).values("year")
 
 
-# Create your views here.
-class WantedBook(ListView):
-    model = BookWanted
-
-
-class ReadnowBook(ListView):
-    model = BookReadnow
-
-
 class BooksDetail(GenreYear, DetailView):
     model = Book
     template_name = 'locallibrary/books/book_detail.html'
@@ -63,27 +54,8 @@ class Books(GenreYear, ListView):
     paginate_by = 3
 
 
-class BooksByReadersListView(LoginRequiredMixin, ListView):
-    """
-    Generic class-based view listing books on loan to current user.
-    """
-    model = Book
-    template_name = 'locallibrary/readersbook_list.html'
-    paginate_by = 10
-    category_name = Genre.objects.all()
-
-    def get_context_data(self, **kwargs):
-        return get_context(self, BooksByReadersListView,
-                           'category_names', self.category_name, **kwargs)
-
-    def get_queryset(self):
-        read = Book.objects.filter(reader=self.request.user)
-        return read
-
-
 class AddReview(View):
     ''' Отзывы пользователей '''
-
     def post(self, request, pk):
         form = ReviewForm(request.POST)
         book = Book.objects.get(id=pk)

@@ -113,7 +113,7 @@ class Book(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('book-detail', args=[self.slug])
+        return reverse('book-detail', kwargs={'slug': self.slug})
 
     def get_review(self):
         return self.reviews_set.filter(parent__isnull=True)
